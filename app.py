@@ -18,11 +18,11 @@ log = app.logger
 def webhook():
 
 	music_db = {
-		"Nine Inch Nails" : ["Closer", "Hurt", "Head Like a Hole", "The Hand That Feeds", "The Perfect Drug"],
-		"Metallica" : ["Nothing Else Matters", "Enter Sandman", "The Unforgiven", "Master of Puppets", "Fade to Black"],
-		"Queen": ["Bohemian Rhapsody", "We Will Rock You", "Don't Stop Me Now", "I Want To Break Free", "Somebody to Love"],
-		"Rolling Stones": ["Paint It Black", "Sympathy for the Devil", "Angie", "Wild Horses", "Satisfaction"],
-		"Pink Floyd": ["Wish You Were Here", "Comfortably Numb", "Shine On You Crazy Diamond", "High Hopes", "Hey You"]
+		"Red Hot Chili Peppers" : ["Californication", "Under the Bridge", "Can't Stop", "Dark Necessities", "Otherside"],
+		"Placebo" : ["Every You Every Me", "Bitter End", "Running up That Hill", "Pure Morning", "Song to Say Goodbye"],
+		"Daft Punk": ["Get Lucky", "One More Time", "Harder, Better, Faster, Stronger", "Lose Yourself to Dance", "Instant Crush"],
+		"Lady Gaga": ["Bad Romance", "Poker Face", "Perfect Illusion", "Alejandro", "Born This Way"],
+		"Eminem": ["Love the Way You Lie", "Rap God", "Lose Yourself", "Not Afraid", "Without Me"]
 	}
 
 	req = request.get_json(silent=True, force=True)
