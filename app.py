@@ -52,7 +52,7 @@ def musicPlay(req, db):
 			if song in db[artist]:
 				speech = 'Playing %s by %s.' % (song, artist)
 			else:
-				speech = 'Sorry, %s has no %s in database.' % (artist, song)
+				speech = 'Sorry, %s has no %s song in database.' % (artist, song)
 		else:
 			speech = "Sorry, can't find this artist in database."
 	else:
