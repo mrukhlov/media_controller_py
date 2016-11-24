@@ -70,7 +70,7 @@ def musicPlay(req, db):
 			else:
 				speech = "Sorry, can't find this song in database"
 		else:
-			speech = 'Specify artist and song'
+			speech = 'Playing songs from your library, shuffling.'
 
 	return {
 		"speech": speech,
