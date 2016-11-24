@@ -1,0 +1,7 @@
+{
+  "name": "media control bot",
+  "description": "API.AI media control bot",
+  "repository": "https://github.com/mrukhlov/media_controller_py",
+  "logo": "http://xvir.github.io/img/apiai.png",
+  "keywords": ["api.ai", "natural language"]
+}

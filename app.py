@@ -14,17 +14,6 @@ from flask import (
 app = Flask(__name__)
 log = app.logger
 
-CLIENT_ACCESS_TOKEN = '8d6eb9c75c774457a00ff96fc6b5c147'
-
-user_playlist = ['Back To Mine', 'Summer of 2008', 'So Jake', 'Christmas', 'Current Buns', 'Gymboy']
-
-headers = {'Authorization': 'Bearer ' + CLIENT_ACCESS_TOKEN, 'Content-Type': 'application/json'}
-entries = [{"value":name, "synonyms":[name]} for name in user_playlist]
-data = {"sessionId":"12345", "name":"playlist", "entries": entries}
-
-r = requests.post('https://api.api.ai/v1/userEntities?v=20150910', data=json.dumps(data), headers=headers)
-
-
 @app.route('/webhook', methods=['POST'])
 def webhook():
 
@@ -86,15 +75,15 @@ def musicPlay(req, db):
 	return {
 		"speech": speech,
 		"displayText": speech,
-		"contextOut": [],
+		"contextOut": ['player-control'],
 	}
 
 
-'''if __name__ == '__main__':
+if __name__ == '__main__':
 	port = int(os.getenv('PORT', 5000))
 
 	app.run(
 		debug=True,
 		port=port,
 		host='0.0.0.0'
-	)'''
+	)
