@@ -42,10 +42,10 @@ def musicPlay(req, db):
 	parameters = req['result']['parameters']
 
 	if parameters.has_key('artist'):
-		artist = parameters['artist']
+		artist = parameters['artist'].title()
 
 	if parameters.has_key('song'):
-		song = parameters['song']
+		song = parameters['song'].title()
 
 	if artist and song:
 		if db.has_key(artist):
