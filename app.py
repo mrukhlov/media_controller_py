@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 
 import os
-import random
+import requests
+import json
 
 from flask import (
 	Flask,
@@ -12,6 +13,16 @@ from flask import (
 
 app = Flask(__name__)
 log = app.logger
+
+CLIENT_ACCESS_TOKEN = '8d6eb9c75c774457a00ff96fc6b5c147'
+
+user_playlist = ['Back To Mine', 'Summer of 2008', 'So Jake', 'Christmas', 'Current Buns', 'Gymboy']
+
+headers = {'Authorization': 'Bearer ' + CLIENT_ACCESS_TOKEN, 'Content-Type': 'application/json'}
+entries = [{"value":name, "synonyms":[name]} for name in user_playlist]
+data = {"sessionId":"12345", "name":"playlist", "entries": entries}
+
+r = requests.post('https://api.api.ai/v1/userEntities?v=20150910', data=json.dumps(data), headers=headers)
 
 
 @app.route('/webhook', methods=['POST'])
@@ -52,23 +63,23 @@ def musicPlay(req, db):
 	if artist and song:
 		if db.has_key(artist):
 			if song in db[artist]:
-				speech = 'Playing %s by %s' % (song, artist)
+				speech = 'Playing %s by %s.' % (song, artist)
 			else:
-				speech = 'Sorry, %s has no %s song in database' % (artist, song)
+				speech = 'Sorry, %s has no %s in database.' % (artist, song)
 		else:
-			speech = "Sorry, can't find this artist in database"
+			speech = "Sorry, can't find this artist in database."
 	else:
 		if artist:
 			if db.has_key(artist):
-				speech = 'Playing %s' % (artist)
+				speech = 'Playing %s.' % (artist)
 		elif song:
 			db_song_list = [item for sublist in db.values() for item in sublist]
 			if song in db_song_list:
 				song_list = [sublist for sublist in db.values() if song in sublist]
 				artist = db.keys()[db.values().index(song_list)]
-				speech = 'Playing %s by %s' % (song, artist)
+				speech = 'Playing %s by %s.' % (song, artist)
 			else:
-				speech = "Sorry, can't find this song in database"
+				speech = "Sorry, can't find this song in database."
 		else:
 			speech = 'Playing songs from your library, shuffling.'
 
@@ -79,11 +90,11 @@ def musicPlay(req, db):
 	}
 
 
-if __name__ == '__main__':
+'''if __name__ == '__main__':
 	port = int(os.getenv('PORT', 5000))
 
 	app.run(
 		debug=True,
 		port=port,
 		host='0.0.0.0'
-	)
+	)'''
