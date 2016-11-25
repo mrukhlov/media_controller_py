@@ -36,16 +36,8 @@ def webhook():
 
 def musicPlay(req, db):
 
-	artist = None
-	song = None
-
-	parameters = req['result']['parameters']
-
-	if parameters.has_key('artist'):
-		artist = parameters['artist'].title()
-
-	if parameters.has_key('song'):
-		song = parameters['song'].title()
+	artist = req['result']['parameters'].get('artist').title()
+	song = req['result']['parameters'].get('song').title()
 
 	if artist and song:
 		if db.has_key(artist):
