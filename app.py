@@ -30,7 +30,7 @@ def webhook():
 	if action == 'music.play':
 		res = musicPlay(req, music_db)
 	else:
-		log.error("Unexpeted action.")
+		log.error("Unexpected action.")
 
 	return make_response(jsonify(res))
 
