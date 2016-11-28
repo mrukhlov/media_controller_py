@@ -39,6 +39,9 @@ def musicPlay(req, db):
 	artist = req['result']['parameters'].get('artist').title()
 	song = req['result']['parameters'].get('song').title()
 
+	print artist
+	print song
+
 	if artist and song:
 		if db.has_key(artist):
 			if song in db[artist]:
