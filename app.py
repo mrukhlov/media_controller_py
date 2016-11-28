@@ -39,9 +39,6 @@ def musicPlay(req, db):
 	artist = req['result']['parameters'].get('artist').title()
 	song = req['result']['parameters'].get('song').title()
 
-	print artist
-	print song
-
 	if artist and song:
 		if db.has_key(artist):
 			if song in db[artist]:
@@ -54,6 +51,8 @@ def musicPlay(req, db):
 		if artist:
 			if db.has_key(artist):
 				speech = 'Playing %s.' % (artist)
+			else:
+				speech = "Sorry, can't find this artist in database."
 		elif song:
 			db_song_list = [item for sublist in db.values() for item in sublist]
 			if song in db_song_list:
