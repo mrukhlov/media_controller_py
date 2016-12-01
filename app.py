@@ -15,7 +15,7 @@ log = app.logger
 @app.route('/webhook', methods=['POST'])
 def webhook():
 
-	user_playlist = ['Back To Mine', 'Summer of 2008', 'So Jake', 'Christmas', 'Current Buns', 'Gymboy']
+	user_playlist = ['Back To Mine', 'Summer of 2008', 'So Jake', 'Christmas', 'Current Buns', 'Gymboy', 'Work']
 
 	music_db = {
 		"Red Hot Chili Peppers" : ["Californication", "Under the Bridge", "Can't Stop", "Dark Necessities", "Otherside"],
@@ -45,6 +45,8 @@ def musicPlay(req, db, user_playlist):
 	if playlist:
 		if playlist in user_playlist:
 			speech = 'Playing songs from %s playlist.' % (playlist)
+		else:
+			speech = "Sorry, can't find this playlist in database."
 	else:
 		if artist and song:
 			if db.has_key(artist):
