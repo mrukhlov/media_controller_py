@@ -15,6 +15,8 @@ log = app.logger
 @app.route('/webhook', methods=['POST'])
 def webhook():
 
+	user_playlist = ['Back To Mine', 'Summer of 2008', 'So Jake', 'Christmas', 'Current Buns', 'Gymboy']
+
 	music_db = {
 		"Red Hot Chili Peppers" : ["Californication", "Under the Bridge", "Can't Stop", "Dark Necessities", "Otherside"],
 		"Placebo" : ["Every You Every Me", "Bitter End", "Running up That Hill", "Pure Morning", "Song to Say Goodbye"],
@@ -28,41 +30,46 @@ def webhook():
 	action = req.get("result").get('action')
 
 	if action == 'music.play':
-		res = musicPlay(req, music_db)
+		res = musicPlay(req, music_db, user_playlist)
 	else:
 		log.error("Unexpected action.")
 
 	return make_response(jsonify(res))
 
-def musicPlay(req, db):
+def musicPlay(req, db, user_playlist):
 
 	artist = req['result']['parameters'].get('artist').title()
 	song = req['result']['parameters'].get('song').title()
+	playlist = req['result']['parameters'].get('playlist').title()
 
-	if artist and song:
-		if db.has_key(artist):
-			if song in db[artist]:
-				speech = 'Playing %s by %s.' % (song, artist)
-			else:
-				speech = 'Sorry, %s has no %s song in database.' % (artist, song)
-		else:
-			speech = "Sorry, can't find this artist in database."
+	if playlist:
+		if playlist in user_playlist:
+			speech = 'Playing songs from %s playlist.' % (playlist)
 	else:
-		if artist:
+		if artist and song:
 			if db.has_key(artist):
-				speech = 'Playing %s.' % (artist)
+				if song in db[artist]:
+					speech = 'Playing %s by %s.' % (song, artist)
+				else:
+					speech = 'Sorry, %s has no %s song in database.' % (artist, song)
 			else:
 				speech = "Sorry, can't find this artist in database."
-		elif song:
-			db_song_list = [item for sublist in db.values() for item in sublist]
-			if song in db_song_list:
-				song_list = [sublist for sublist in db.values() if song in sublist]
-				artist = db.keys()[db.values().index(song_list)]
-				speech = 'Playing %s by %s.' % (song, artist)
-			else:
-				speech = "Sorry, can't find this song in database."
 		else:
-			speech = 'Playing songs from your library, shuffling.'
+			if artist:
+				if db.has_key(artist):
+					speech = 'Playing %s.' % (artist)
+				else:
+					speech = "Sorry, can't find this artist in database."
+			elif song:
+				db_song_list = [item for sublist in db.values() for item in sublist]
+				if song in db_song_list:
+					song_list = [sublist for sublist in db.values() if song in sublist]
+					artist = db.keys()[db.values().index(song_list)]
+					speech = 'Playing %s by %s.' % (song, artist)
+				else:
+					speech = "Sorry, can't find this song in database."
+			else:
+				speech = 'Playing songs from your library, shuffling.'
 
 	return {
 		"speech": speech,
